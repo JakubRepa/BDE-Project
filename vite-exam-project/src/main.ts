@@ -60,8 +60,10 @@ const renderTodos = (): void => { // void because no return - what we are doing 
     li.innerHTML = `
       <span>${todo.text}</span>
       <button>Remove</button>
+      <button id="editBtn">Edit</button>
     `;
     // addRemoveButtonListener is further down in the code. We have onclick in the function instead of template literals. More safe to use addEventListener.
+    addEditButtonListener(li, todo.id); // Add event listener to the remove button. li is the parent element, and todo.id is the ID of the todo.
     addRemoveButtonListener(li, todo.id); // Add event listener to the remove button. li is the parent element, and todo.id is the ID of the todo. 
     todoList.appendChild(li); // Append the list item to the ul element
   });
@@ -132,6 +134,22 @@ const removeTodo = (id: number): void => {
   renderTodos(); // Re-render the updated list of todos
 }; 
 
+//edit function and button
+const addEditButtonListener = (li: HTMLLIElement, id: number) => {
+  const editButton = li.querySelector('#editBtn')
+  editButton?.addEventListener('click', () => editTodo (id));
+}
+
+const editTodo = (id:number) => {
+  const todo = todos.find(todo => todo.id === id);
+  if (todo) {
+    const text = prompt('Edit todo text:', todo.text)
+    if (text) {
+      todo.text = text;
+      renderTodos();
+    }
+  }
+}
 
 
 
@@ -157,12 +175,6 @@ const removeTodo = (id: number): void => {
 // Step 23: Add a button for color picker for background color (<input type="color" id="colorPicker" />)
 // Step 24: Function to change the background color of the todo list based on the color picker value
 // hints: use the input event to listen for changes in the color picker value, and set the background color of the todo list based on the value of the color picker.
-
-
-
-
-
-
 
 
 
