@@ -1,5 +1,5 @@
 :root {
-  --font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
   --line-height: 1.5;
   --font-weight: 400;
 
@@ -7,22 +7,18 @@
   --color: rgba(255, 255, 255, 0.87);
   --background-color: #242424;
 
-  --font-synthesis: none;
-  --text-rendering: optimizeLegibility;
-  --webkit-font-smoothing: antialiased;
-  --moz-osx-font-smoothing: grayscale;
-
-  --body-background-color: #353535;
-  --container-background-color: #fff;
+  --body-background-color: #2c2c2c;
+  --container-background-color: #3c3c3c;
   --container-padding: 20px;
   --container-border-radius: 5px;
   --container-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  --container-width: 300px;
+  --container-width: 400px;
 }
 
 body {
   font-family: var(--font-family);
   background-color: var(--body-background-color);
+  color: #e0e0e0;
   margin: 0;
   padding: 0;
   display: flex;
@@ -39,20 +35,20 @@ body {
   width: var(--container-width);
 }
 
-
-h1 {
-  text-align: center;
-}
 .todo-form {
   display: flex;
   justify-content: space-between;
 }
+
 .todo-form input {
   flex: 1;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #5a5a5a;
   border-radius: 3px;
+  background-color: #ffffff;
+  color: #000000;
 }
+
 .todo-form button {
   padding: 10px;
   border: none;
@@ -61,30 +57,68 @@ h1 {
   border-radius: 3px;
   cursor: pointer;
 }
+
 .todo-list {
   list-style: none;
   padding: 0;
 }
+
 .todo-item {
-  background: #f9f9f9;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+  background: #ffffff;
+  padding: 5px;
+  border-bottom: 1px solid #555;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-}
-.todo-item button {
-  border: none;
-  background: #dc3545;
-  color: #fff;
-  border-radius: 3px;
-  cursor: pointer;
+  color: #242424;
 }
 
+.todo-item input[type="radio"] {
+  margin-right: 10px;
+  width: 20px; /* Make the radio button larger */
+  height: 20px;
+}
+
+.todo-item span {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 25px; /* Increase the icon size */
+}
+
+.edit-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 20px; /* Increase the icon size */
+}
+
+.remove-btn i {
+  color: #dc3545;
+}
+
+.edit-btn i {
+  color: #ffc107;
+}
+
+.remove-btn:hover i, .edit-btn:hover i {
+  opacity: 0.8;
+}
 
 .input-error {
   border: 2px solid red;
-  background-color: #ffe6e6; /* Optional: Light red background to indicate error */
+  background-color: #ffe6e6;
 }
 
 #error-message {
@@ -92,4 +126,19 @@ h1 {
   font-size: 0.9em;
   margin-top: 5px;
   display: none;
+}
+
+/* style.css */
+
+.complete-radio {
+  margin-right: 10px;
+  width: 20px; /* Increase size */
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Strike-through text when completed */
+.completed {
+  text-decoration: line-through;
+  color: #888;
 }
