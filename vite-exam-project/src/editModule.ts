@@ -1,5 +1,3 @@
-// editModule.ts
-
 import { todos } from './todoModule'; // Import the todos array
 import { renderTodos } from './render'; // Import the renderTodos function
 

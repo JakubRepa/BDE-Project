@@ -1,5 +1,3 @@
-// colorPicker.ts
-
 // Function to change the background color of the page based on the color picker value
 const changeBackgroundColor = (color: string): void => {
     document.body.style.backgroundColor = color;

@@ -1,4 +1,6 @@
-// toggleComplete.ts
+// Option 1: Add a button to toggle the completed status of a todo item
+// Function to toggle the completed status of a todo + 
+// Add a button to toggle the completed status of a todo item
 
 import { todos } from './todoModule';
 import { renderTodos } from './render'; // Import renderTodos function to re-render the list
@@ -15,3 +17,4 @@ export const addToggleCompleteButtonListener = (element: HTMLElement): void => {
     }
   });
 };
+

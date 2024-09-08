@@ -16,7 +16,7 @@ export const renderTodos = (): void => {
     const completedClass = todo.completed ? 'completed' : ''; // Conditionally add a class for completed todos
     li.innerHTML = `
       <input type="radio" class="complete-radio" ${todo.completed ? 'checked' : ''} data-id="${todo.id}">
-      <span class="${completedClass}">${todo.text}</span>
+      <span class="${completedClass}">${todo.text}</span> 
       <button class="edit-btn"><i class="fas fa-pen"></i></button>
       <button class="remove-btn"><i class="fas fa-times"></i></button>
     `;
