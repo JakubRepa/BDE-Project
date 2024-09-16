@@ -2,7 +2,6 @@
 
 import './style.css'; // Import CSS for styling
 import { addTodo } from './todoModule'; // Import the addTodo function
-import './colorPicker'; // Import color picker module
 
 const form = document.querySelector('.todo-form') as HTMLFormElement; // Reference to the form element
 const todoInput = document.getElementById('todo-input') as HTMLInputElement; // Reference to the input element

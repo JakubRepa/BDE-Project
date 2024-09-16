@@ -1,6 +1,5 @@
 // todoModule.ts
 
-import { Todo } from './interfaces';
 import { renderTodos } from './render';
 
 // Define an array to store todos
