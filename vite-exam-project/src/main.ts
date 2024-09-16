@@ -4,34 +4,34 @@ import './style.css'; // Import CSS for styling
 import { addTodo } from './todoModule'; // Import the addTodo function
 import './colorPicker'; // Import color picker module
 
-const form = document.querySelector('.todo-form') as HTMLFormElement;
-const prioritySelect = document.getElementById('priority-select') as HTMLSelectElement;
-
-
+const form = document.querySelector('.todo-form') as HTMLFormElement; // Reference to the form element
 const todoInput = document.getElementById('todo-input') as HTMLInputElement; // Reference to the input element
-const todoForm = document.querySelector('.todo-form') as HTMLFormElement; // Reference to the form element
-const errorMessage = document.getElementById('error-message') as HTMLParagraphElement; // Reference to error message
+const prioritySelect = document.getElementById('priority-select') as HTMLSelectElement; // Reference to the priority select dropdown
+const errorMessage = document.getElementById('error-message') as HTMLParagraphElement; // Reference to the error message
 
 // Event listener for form submission to add a new todo
-todoForm.addEventListener('submit', (event: Event) => {
+form.addEventListener('submit', (event: Event) => {
   event.preventDefault(); // Prevent default form submission
-  const text = todoInput.value.trim(); // Get input value and trim whitespace
-  if (text !== '') { // Validate input
-    todoInput.classList.remove('input-error'); // Remove error class
+
+  const text = todoInput.value.trim(); // Get the input value and trim whitespace
+  const priority = prioritySelect.value as 'low' | 'medium' | 'high'; // Get the selected priority from the dropdown
+
+  if (text !== '') {
+    todoInput.classList.remove('input-error'); // Remove error styling from input
     errorMessage.style.display = 'none'; // Hide error message
-    addTodo(text); // Add the new todo
-    todoInput.value = ''; // Clear input field
+
+    // Call addTodo with the text and selected priority
+    addTodo(text, priority); // Pass the text and priority to the addTodo function
+    
+    todoInput.value = ''; // Clear the input field after submission
+    prioritySelect.value = 'low'; // Reset priority to default (low)
   } else {
-    console.log("Please enter a todo item"); // Log error
-    todoInput.classList.add('input-error'); // Add error class
-    errorMessage.style.display = 'block'; // Show error message
+    console.log("Please enter a todo item"); // Log the error
+    todoInput.classList.add('input-error'); // Add error class to input field
+    errorMessage.style.display = 'block'; // Show the error message
   }
 });
 
-// Option 7: Add a dropdown to set the priority level (e.g., Low, Medium, High) for each todo item.
-// Display the priority level next to each todo item.
-// Sort todos by priority.
-// Search Functionality:
 
 
 // Handle form submission
@@ -83,7 +83,3 @@ form.addEventListener('submit', (e: Event) => {
 // Option 7: Add a dropdown to set the priority level (e.g., Low, Medium, High) for each todo item.
 // Display the priority level next to each todo item.
 // Sort todos by priority.
-
-// Dark Mode Toggle:
-// Option 11: Add a button to toggle between light and dark modes.
-// Change the app's theme based on the selected mode.

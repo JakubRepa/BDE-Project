@@ -1,24 +1,49 @@
+// Define the Todo type with priority
 export interface Todo {
   id: number;
   text: string;
   completed: boolean;
-  priority: string; // Add priority field for future
+  priority: 'low' | 'medium' | 'high'; // Add priority level
 }
 
-export let todos: Todo[] = [];
+// Array to store todos
+export const todos: Todo[] = [];
 
-// Add Todo
-export const addTodo = (text: string, priority: string): void => {
+// Function to add a new todo
+export const addTodo = (text: string, priority: 'low' | 'medium' | 'high'): void => {
   const newTodo: Todo = {
-    id: Date.now(),
-    text: text,
+    id: Date.now(), // Unique ID
+    text,
     completed: false,
-    priority: priority
+    priority, // Set priority level
   };
   todos.push(newTodo);
+  renderTodos(); // Render updated todo list
 };
 
-// Remove Todo
+// Function to remove a todo by ID
 export const removeTodo = (id: number): void => {
-  todos = todos.filter(todo => todo.id !== id);
+  const index = todos.findIndex(todo => todo.id === id);
+  if (index !== -1) {
+    todos.splice(index, 1);
+    renderTodos();
+  }
 };
+
+// Function to edit a todo by ID
+export const editTodo = (id: number, newText: string): void => {
+  const todo = todos.find(todo => todo.id === id);
+  if (todo) {
+    todo.text = newText;
+    renderTodos();
+  }
+};
+
+// Function to toggle the completed status of a todo by ID
+export const toggleComplete = (id: number): void => {
+  const todo = todos.find(todo => todo.id === id);
+  if (todo) {
+    todo.completed = !todo.completed;
+    renderTodos();
+  }
+}
