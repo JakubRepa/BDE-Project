@@ -27,6 +27,18 @@ body {
   height: 100vh;
 }
 
+h1{
+  margin: 0;
+}
+
+p {
+  font-size: 16px; /* Set the desired text size */
+  font-weight: 500; /* Medium weight */
+  margin: 0; /* Reset margin if needed */
+  line-height: var(--line-height); /* Maintain line-height consistency */
+}
+
+
 .container {
   background: var(--container-background-color);
   padding: var(--container-padding);
@@ -59,6 +71,7 @@ body {
 .todo-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .todo-item {
@@ -126,7 +139,6 @@ body {
   display: none;
 }
 
-
 .complete-radio {
   margin-right: 10px;
   width: 20px; 
@@ -136,5 +148,23 @@ body {
 
 .completed {
   text-decoration: line-through;
-  color: #888;
+  color: #2e2e2e;
+}
+
+/* New styles for the filter buttons */
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.filter-buttons label {
+  background: #efefef;
+  color: rgb(0, 0, 0);
+  border: 1px solid #000;
+  padding: 10px 10px;
+  cursor: pointer;
+}
+
+.filter-buttons input[type="checkbox"] {
+  margin-right: 5px;
 }
