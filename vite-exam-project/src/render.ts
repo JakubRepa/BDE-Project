@@ -1,8 +1,20 @@
-import { todos } from './todoModule'; 
-import { addRemoveButtonListener, addEditButtonListener } from './eventListeners';
+import { todos } from './todoModule';
+import { addRemoveButtonListener } from './eventListeners';
 import { addToggleCompleteButtonListener } from './toggleComplete';
 
-// (NEW: Function to get color based on priority level)
+// Function to edit a todo item by its ID
+const editTodo = (id: number): void => {
+  const todo = todos.find(todo => todo.id === id); // Find the todo item by ID
+  if (todo) {
+    const text = prompt('Edit todo', todo.text); // Prompt user to edit the todo text
+    if (text) {
+      todo.text = text; // Update the todo text
+      renderTodos(); // Re-render the updated list of todos
+    }
+  }
+};
+
+// Function to get color based on priority level
 const getPriorityColor = (priority: 'low' | 'medium' | 'high'): string => {
   switch (priority) {
     case 'low':
@@ -17,7 +29,7 @@ const getPriorityColor = (priority: 'low' | 'medium' | 'high'): string => {
 };
 
 const todoList = document.getElementById('todo-list') as HTMLUListElement;
-const filtersContainer = document.getElementById('filters') as HTMLDivElement; //FILTERING - (Container for filter buttons)
+const filtersContainer = document.getElementById('filters') as HTMLDivElement; // FILTERING - (Container for filter buttons)
 
 // FILTERING - (Filter state object to track which priorities are selected)
 const filters = {
@@ -66,6 +78,12 @@ export const renderTodos = (): void => {
     return !filters.low && !filters.medium && !filters.high;       // FILTERING - (Show all if no filters are selected)
   });
 
+  // **Sorting todos by priority: High > Medium > Low**
+  filteredTodos.sort((a, b) => {
+    const priorityOrder = { low: 1, medium: 2, high: 3 }; // Define priority order
+    return priorityOrder[b.priority] - priorityOrder[a.priority]; // Sort descending: 'high' (3) > 'medium' (2) > 'low' (1)
+  });
+
   // (Loop through filtered todos array to render each todo item)
   filteredTodos.forEach(todo => {
     const li = document.createElement('li');
@@ -89,7 +107,7 @@ export const renderTodos = (): void => {
 
     // (Add event listeners to buttons and radio)
     addRemoveButtonListener(li, todo.id); 
-    addEditButtonListener(li, todo.id); 
+    li.querySelector('.edit-btn')!.addEventListener('click', () => editTodo(todo.id)); // Directly add the edit event listener here
     addToggleCompleteButtonListener(li); 
 
     todoList.appendChild(li); // (Append each filtered todo item to the DOM)

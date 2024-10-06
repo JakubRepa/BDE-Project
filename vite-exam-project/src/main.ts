@@ -31,8 +31,6 @@ form.addEventListener('submit', (event: Event) => {
   }
 });
 
-
-
 // Handle form submission
 form.addEventListener('submit', (e: Event) => {
   e.preventDefault();
@@ -47,19 +45,6 @@ form.addEventListener('submit', (e: Event) => {
     document.getElementById('error-message')!.style.display = 'block';
   }
 });
-
-/**
- * NOTE to self
- * Make a module and import the functions from the module
- * Seperate the functions into different files
- * Logical grouping of functions - for example, all functions related to adding a todo item can be in one file
- * 
- */
-
-
-/**
- * REDO it. More streqamlined and better structure - 
- */
 
 
 /** 
@@ -77,6 +62,10 @@ form.addEventListener('submit', (e: Event) => {
 // Option 1: Add a button to toggle the completed status of a todo item
 // Function to toggle the completed status of a todo + 
 // Add a button to toggle the completed status of a todo item
+
+// Option 4: Add a button to filter todos by status
+// Add a button to filter todos by status
+// Function to filter todos by status
 
 // Priority Levels:
 // Option 7: Add a dropdown to set the priority level (e.g., Low, Medium, High) for each todo item.
