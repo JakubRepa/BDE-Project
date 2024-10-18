@@ -31,4 +31,4 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: test/todo/ # test.jakubrepa.com/BDE-Project/todo/
-          local-dir: ./bde-project/dist
+          local-dir: ./bde-project/dist/
