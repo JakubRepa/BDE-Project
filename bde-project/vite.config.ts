@@ -2,6 +2,8 @@
 import { defineConfig } from 'vite' 
 
 export default defineConfig({
-  base: '/todo/',
+  // base: '/todo/',
   // other options
 })
+
+//uncomment the base option and set it to '/todo/' to deploy to a subcategory

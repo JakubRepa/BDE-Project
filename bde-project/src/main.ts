@@ -134,7 +134,7 @@ const renderTodos = (): void => {
       <input type="checkbox" class="complete-radio" ${todo.completed ? 'checked' : ''} data-id="${todo.id}">
       <span class="${completedClass}">${todo.text}</span>
       <span class="priority-tag" style="color: ${priorityColor}; font-weight: bold;">${todo.priority}</span>
-      <button class="edit-btn"><i class="fas fa-pen"></i></button>
+      <button class="edit-btn" id="edit-btn"><i class="fas fa-pen"></i></button>
       <button class="remove-btn"><i class="fas fa-times"></i></button>
     `;
 

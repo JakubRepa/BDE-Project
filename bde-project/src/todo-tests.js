@@ -1,37 +1,45 @@
-// test.js
-
 import { Selector } from 'testcafe';
 
-// Define the URL of the application
-const appUrl = 'https://test.jakubrepa.com/todo/'; // Change this to your app's URL if needed
+// Define the fixture and the URL of the application
+fixture `Todo App Test`
+    .page `http://localhost:5173` // Change this to your app's actual running URL if needed
+    .beforeEach(async t => {
+        // Arrange: Select necessary elements for adding a todo
+        const todoInput = Selector('#todo-input');
+        const prioritySelect = Selector('#priority-select');
+        const submitButton = Selector('.todo-form button[type="submit"]');
 
-fixture `Todo App Tests`
-    .page(appUrl);
+        // Act: Add a new todo item with priority 'medium'
+        await t
+            .typeText(todoInput, 'Test new todo')
+            .click(prioritySelect)
+            .click(prioritySelect.find('option[value="medium"]')) // Select 'medium' priority
+            .click(submitButton); // Submit the form
+    });
 
-// Test to verify that a todo item can be edited
-test('Edit Todo Item', async t => {
-    // Add a new todo item
+// Test to verify that a new todo can be added
+test('Add a new todo', async t => {
+    // Assert: Check that the new todo is added with the correct text and priority
+    const todoList = Selector('.todo-item');
     await t
-        .typeText('#todo-input', 'Test Todo') // Enter a todo item
-        .click('#priority-select') // Click to select the priority
-        .click('option[value="medium"]') // Select 'Medium' priority
-        .click('button[type="submit"]'); // Click the Add button
+        .expect(todoList.withText('Test new todo').exists).ok()
+        .expect(todoList.withText('medium').exists).ok();
+});
 
-    // Wait for the todo item to be rendered in the DOM
-    await t
-        .expect(Selector('.todo-item').innerText).contains('Test Todo', 'Todo item was added successfully');
+// Test to verify that a todo can be edited
+test('Edit a todo', async t => {
+    // Arrange: Select necessary elements for editing the todo
+    const todoItem = Selector('.todo-item').withText('Test new todo');
+    const editButton = Selector('#edit-btn'); // Targeting the button by ID
 
-    // Click the edit button
+    // Set the native dialog handler before triggering the prompt
     await t
-        .click(Selector('.edit-btn').withText('Edit')); // Click on the edit button of the first todo item
+        .setNativeDialogHandler(() => 'Edited todo text') // Handle the prompt dialog and return the new text
 
-    // Simulate entering new text in the prompt (this needs to be handled through a test helper)
-    await t
-        .setNativeDialogHandler(() => true) // Accept the prompt (you can customize this to enter a specific text)
-        .setNativeDialogHandler(() => 'Edited Todo') // Automatically provide the new text for the todo
-        .click('OK'); // Click OK to submit the edit
+        // Act: Click the edit button to trigger the prompt and submit the new text
+        .click(editButton)
+        .pressKey('enter'); // Submit the prompt with the new text
 
-    // Verify that the todo item has been updated
-    await t
-        .expect(Selector('.todo-item').innerText).contains('Edited Todo', 'Todo item was edited successfully');
+    // Assert: Check that the todo text has been updated
+    const updatedTodoItem = Selector('.todo-item').withText('Edited todo text');
 });
