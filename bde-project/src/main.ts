@@ -19,11 +19,6 @@ const todoInput = document.getElementById('todo-input') as HTMLInputElement; // 
 const todoForm = document.querySelector('.todo-form') as HTMLFormElement;    // exist in HTML file
 const todoList = document.getElementById('todo-list') as HTMLUListElement;   // exist in HTML file
 
-
-
-
-
-
 // Step 5: Function to add a new todo
 // Function to add a new todo: This function creates a new todo object and adds it to the array.
 export const addTodo = (text: string): void => {
@@ -36,6 +31,7 @@ export const addTodo = (text: string): void => {
   console.log("Todo added: ", todos); // Log the updated list of todos to the console
   renderTodos(); // Render the updated list of todos => create the function next
 };
+
 
 // Step 6: Function to render the list of todos
 // Function to render the list of todos: This function updates the DOM to display the current list of todos.
@@ -60,6 +56,7 @@ const renderTodos = (): void => { // void because no return - what we are doing 
   });
 };
 
+
 // Step 6.1: Function to render the list of todos
 // Initial render
 renderTodos(); // Call the renderTodos function to display the initial list of todos : Should be at the end of the code to ensure that the function is defined before it is called.
@@ -77,6 +74,7 @@ todoForm.addEventListener('submit', (event: Event) => {
     todoInput.value = ''; // Clear the input field
   }
 });
+
 
 //Improved code for step 7 - user input validation - move the error message to the top of the Typescript file
 const errorMessage = document.getElementById('error-message') as HTMLParagraphElement; // Should be moved to the top + added to the HTML file
@@ -96,7 +94,6 @@ todoForm.addEventListener('submit', (event: Event) => {
     errorMessage.style.display = 'block'; // Show the error message
   }
 });
-
 
 
 // Step 8: Function to removes all a todo by ID
@@ -121,6 +118,7 @@ const addEditButtonListener = (li: HTMLLIElement, id:number) => {
   const editButton = li.querySelector('#editBtn')
   editButton?.addEventListener('click', () => editTodo(id)) 
 }
+
 
 // Edit function - prompt user to edit the todo : editTodo
 const editTodo = (id:number) => {
