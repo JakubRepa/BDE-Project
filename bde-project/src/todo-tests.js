@@ -3,7 +3,7 @@
 import { Selector } from 'testcafe';
 
 // Define the URL of the application
-const appUrl = 'http://localhost:3000'; // Change this to your app's URL if needed
+const appUrl = 'https://test.jakubrepa.com/todo/'; // Change this to your app's URL if needed
 
 fixture `Todo App Tests`
     .page(appUrl);
