@@ -11,9 +11,6 @@ jobs:
     environment: Test
     container:
       image: node
-    defaults:
-      run:
-        working-directory: ./bde-project
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
