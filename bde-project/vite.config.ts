@@ -6,4 +6,5 @@ export default defineConfig({
   // other options
 })
 
-//uncomment the base option and set it to '/todo/' to deploy to a subcategory
+//uncomment the base option and set it to '/todo/' 
+//push the changeto GitHub

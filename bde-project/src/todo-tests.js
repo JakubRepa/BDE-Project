@@ -2,7 +2,7 @@ import { Selector } from 'testcafe';
 
 // Define the fixture and the URL of the application
 fixture `Todo App Test`
-    .page `http://localhost:5173` // Change this to your app's actual running URL if needed
+    .page `https://test.jakubrepa.com/todo/?` // Change it to the URL of your application
     .beforeEach(async t => {
         // Arrange: Select necessary elements for adding a todo
         const todoInput = Selector('#todo-input');
