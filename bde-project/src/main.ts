@@ -1,133 +1,184 @@
-// 1 Import the CSS file: This ensures that the styles are applied to the HTML elements.
-import './style.css';
+import './style.css'; // Import CSS for styling
 
-// Step 2: Define the Todo interface
-// Define the Todo interface: This interface defines the structure of a todo item.
-export interface Todo {
+// Define an array to store todos
+let todos: Todo[] = [];
+
+// Updated the Todo interface to include priority
+// (NEW) Priority field added to the Todo interface to store the priority level (low, medium, high)
+interface Todo {
   id: number;
   text: string;
   completed: boolean;
+  priority: 'low' | 'medium' | 'high'; // New field for priority
 }
 
-// Step 3: Initialize an empty array to store todos
-// Initialize an empty array: This array will store the list of todos.
-export let todos: Todo[] = [];
+// DOM element references
+const form = document.querySelector('.todo-form') as HTMLFormElement;
+const todoInput = document.getElementById('todo-input') as HTMLInputElement;
+const prioritySelect = document.getElementById('priority-select') as HTMLSelectElement; // (NEW) Reference to the dropdown for priority selection
+const errorMessage = document.getElementById('error-message') as HTMLParagraphElement;
+const todoList = document.getElementById('todo-list') as HTMLUListElement;
+const filtersContainer = document.getElementById('filters') as HTMLDivElement; // (NEW) Container for filter buttons
 
-// Step 4: Get references to the HTML elements
-// Get references to the HTML elements: These references will be used to interact with the DOM
-const todoInput = document.getElementById('todo-input') as HTMLInputElement; // exist in HTML file
-const todoForm = document.querySelector('.todo-form') as HTMLFormElement;    // exist in HTML file
-const todoList = document.getElementById('todo-list') as HTMLUListElement;   // exist in HTML file
-
-// Step 5: Function to add a new todo
-// Function to add a new todo: This function creates a new todo object and adds it to the array.
-export const addTodo = (text: string): void => {
-  const newTodo: Todo = {
-    id: Date.now(), // Generate a unique ID based on the current timestamp
-    text: text,
-    completed: false,
-  };
-  todos.push(newTodo);
-  console.log("Todo added: ", todos); // Log the updated list of todos to the console
-  renderTodos(); // Render the updated list of todos => create the function next
+// FILTERING - (NEW) State object to track which priorities are selected
+const filters = {
+  low: false,
+  medium: false,
+  high: false,
 };
 
+// (NEW) Function to add a new todo, including priority selection
+const addTodo = (text: string, priority: 'low' | 'medium' | 'high'): void => {
+  const newTodo: Todo = {
+    id: Date.now(),
+    text: text,
+    completed: false,
+    priority: priority // (NEW) Priority value passed from the dropdown
+  };
 
-// Step 6: Function to render the list of todos
-// Function to render the list of todos: This function updates the DOM to display the current list of todos.
-const renderTodos = (): void => { // void because no return - what we are doing is updating the DOM
-  // Clear the current list
-  todoList.innerHTML = '';
+  todos.push(newTodo);
+  console.log("Todo added: ", todos);
+  renderTodos();
+};
 
-  // Iterate over the todos array and create list items for each todo
-  todos.forEach(todo => { // In this specific case, .forEach is more suitable because we are directly modifying the DOM for each todo item.
-    const li = document.createElement('li');
-    li.className = 'todo-item'; // Add a class to the list item
-    // Use template literals to create the HTML content for each list item
-    li.innerHTML = `
-      <span>${todo.text}</span>
-      <button>Remove</button>
-         <button id="editBtn">Edit</button>
-    `;
-    // addRemoveButtonListener is further down in the code. We have onclick in the function instead of template literals. More safe to use addEventListener.
-    addRemoveButtonListener(li, todo.id); // Add event listener to the remove button. li is the parent element, and todo.id is the ID of the todo. 
-    addEditButtonListener(li, todo.id); // Add event listener to the remove button. li is the parent element, and todo.id is the ID of the todo. 
-    todoList.appendChild(li); // Append the list item to the ul element
+// (NEW) Function to toggle the completed status of a todo by its ID
+const toggleCompleted = (id: number): void => {
+  const todo = todos.find(todo => todo.id === id);
+  if (todo) {
+    todo.completed = !todo.completed; // (NEW) Toggles completed status between true/false
+    console.log(`Todo with ID: ${id} completed status is now: `, todo.completed);
+    renderTodos();
+  }
+};
+
+// Function to remove a todo by its ID
+const removeTodo = (id: number): void => {
+  todos = todos.filter(todo => todo.id !== id);
+  renderTodos();
+};
+
+// Function to edit a todo item by its ID
+const editTodo = (id: number): void => {
+  const todo = todos.find(todo => todo.id === id);
+  if (todo) {
+    const text = prompt('Edit todo', todo.text);
+    if (text) {
+      todo.text = text;
+      renderTodos();
+    }
+  }
+};
+
+// (NEW) Function to handle filter changes for priority
+const handleFilterChange = (priority: 'low' | 'medium' | 'high', checked: boolean): void => {
+  filters[priority] = checked;  // (NEW) Update filter state when checkbox changes
+  renderTodos();
+};
+
+// (NEW) Function to create and render filter buttons
+const renderFilters = (): void => {
+  filtersContainer.innerHTML = `
+    <label><input type="checkbox" id="filter-low"> Low</label>
+    <label><input type="checkbox" id="filter-medium"> Medium</label>
+    <label><input type="checkbox" id="filter-high"> High</label>
+  `;
+
+  // Add event listeners for each filter checkbox
+  document.getElementById('filter-low')!.addEventListener('change', (event) => {
+    handleFilterChange('low', (event.target as HTMLInputElement).checked);
+  });
+  document.getElementById('filter-medium')!.addEventListener('change', (event) => {
+    handleFilterChange('medium', (event.target as HTMLInputElement).checked);
+  });
+  document.getElementById('filter-high')!.addEventListener('change', (event) => {
+    handleFilterChange('high', (event.target as HTMLInputElement).checked);
   });
 };
 
-
-// Step 6.1: Function to render the list of todos
-// Initial render
-renderTodos(); // Call the renderTodos function to display the initial list of todos : Should be at the end of the code to ensure that the function is defined before it is called.
-// The initial render is important to display the list of todos when the page is first loaded. Without it, the list would be empty until a new todo is added.
-// Move it when code is complete ( refactoring ) 
-
-
-// Step 7: Event listener for the form submission
-// Event listener for the form submission: This listener handles the form submission, adds the new todo, and clears the input field.
-todoForm.addEventListener('submit', (event: Event) => {
-  event.preventDefault(); // Prevent the default form submission behavior
-  const text = todoInput.value.trim(); // Get the value of the input field and remove any leading or trailing whitespace - not needed, but good practice
-  if (text !== '') { // Check if the input field is not empty. Sort of a reverse falsey
-    addTodo(text);
-    todoInput.value = ''; // Clear the input field
+// (NEW) Helper function to get color based on priority
+const getPriorityColor = (priority: 'low' | 'medium' | 'high'): string => {
+  switch (priority) {
+    case 'low': return 'green';
+    case 'medium': return 'orange';
+    case 'high': return 'red';
+    default: return 'grey';
   }
-});
-
-
-//Improved code for step 7 - user input validation - move the error message to the top of the Typescript file
-const errorMessage = document.getElementById('error-message') as HTMLParagraphElement; // Should be moved to the top + added to the HTML file
-
-todoForm.addEventListener('submit', (event: Event) => {
-  event.preventDefault(); // Prevent the default form submission behavior
-  const text = todoInput.value.trim(); // Get the value of the input field and remove any leading or trailing whitespace
-
-  if (text !== '') { // Check if the input field is empty
-    todoInput.classList.remove('input-error'); // Remove the error highlight if present
-    errorMessage.style.display = 'none'; // Hide the error message
-    addTodo(text); // Add the todo item
-    todoInput.value = ''; // Clear the input field
-  } else {
-    console.log("Please enter a todo item"); // Provide feedback to the user
-    todoInput.classList.add('input-error'); // Add a class to highlight the error
-    errorMessage.style.display = 'block'; // Show the error message
-  }
-});
-
-
-// Step 8: Function to removes all a todo by ID
-// Function to add event listener to the remove button - this function has an callback function that removes the todo item from the array.
-const addRemoveButtonListener = (li: HTMLLIElement, id: number): void => {
-  const removeButton = li.querySelector('button');
-  removeButton?.addEventListener('click', () => removeTodo(id)); // We have an optional chaining operator here to avoid errors if the button is not found - for example, if the button is removed from the DOM.
 };
 
+// (UPDATED) Function to render the todo list
+const renderTodos = (): void => {
+  todoList.innerHTML = ''; // Clear the current list
 
-// Step 8: Function to remove a todo by ID
-// Function to remove a todo by ID: This function removes a todo from the array based on its ID.
-export const removeTodo = (id: number): void => {
-  todos = todos.filter(todo => todo.id !== id);
-  renderTodos(); // Re-render the updated list of todos
-}; 
+  // (NEW) Filter todos based on selected filters
+  const filteredTodos = todos.filter(todo => {
+    if (filters.low && todo.priority === 'low') return true;
+    if (filters.medium && todo.priority === 'medium') return true;
+    if (filters.high && todo.priority === 'high') return true;
+    return !filters.low && !filters.medium && !filters.high; // Show all if no filters are selected
+  });
 
+  // (NEW) Sort todos by priority
+  filteredTodos.sort((a, b) => {
+    const priorityOrder = { low: 1, medium: 2, high: 3 };
+    return priorityOrder[b.priority] - priorityOrder[a.priority];
+  });
 
-// Edit event listener - make button and add button to each todo
-const addEditButtonListener = (li: HTMLLIElement, id:number) => {
-  // make use of the editBtn id to edit the todo
-  const editButton = li.querySelector('#editBtn')
-  editButton?.addEventListener('click', () => editTodo(id)) 
-}
+  // Render each todo item
+  filteredTodos.forEach(todo => {
+    const li = document.createElement('li');
+    li.className = 'todo-item';
+    const completedClass = todo.completed ? 'completed' : '';
+    const priorityColor = getPriorityColor(todo.priority);
 
+    li.innerHTML = `
+      <input type="checkbox" class="complete-radio" ${todo.completed ? 'checked' : ''} data-id="${todo.id}">
+      <span class="${completedClass}">${todo.text}</span>
+      <span class="priority-tag" style="color: ${priorityColor}; font-weight: bold;">${todo.priority}</span>
+      <button class="edit-btn"><i class="fas fa-pen"></i></button>
+      <button class="remove-btn"><i class="fas fa-times"></i></button>
+    `;
 
-// Edit function - prompt user to edit the todo : editTodo
-const editTodo = (id:number) => {
-  const todo = todos.find(todo => todo.id === id)
-  if (todo) {
-    const text = prompt('Edit todo', todo.text)
-    if (text) {
-      todo.text = text
-      renderTodos()
-    }
+    li.querySelector('.remove-btn')!.addEventListener('click', () => removeTodo(todo.id));
+    li.querySelector('.edit-btn')!.addEventListener('click', () => editTodo(todo.id));
+    li.querySelector('.complete-radio')!.addEventListener('click', () => toggleCompleted(todo.id));
+
+    todoList.appendChild(li);
+  });
+};
+
+// Initial setup
+renderFilters(); // (NEW) Render filter buttons on page load
+
+// (UPDATED) Event listener for form submission to add a new todo
+form.addEventListener('submit', (event: Event) => {
+  event.preventDefault(); // Prevent default form submission
+
+  const text = todoInput.value.trim();
+  const priority = prioritySelect.value as 'low' | 'medium' | 'high'; // (NEW) Get selected priority from the dropdown
+
+  if (text !== '') {
+    todoInput.classList.remove('input-error');
+    errorMessage.style.display = 'none';
+    addTodo(text, priority); // (UPDATED) Pass the priority along with the todo text
+    todoInput.value = '';
+    prioritySelect.value = 'low'; // Reset the dropdown to default 'low' after adding
+  } else {
+    console.log("Please enter a todo item");
+    todoInput.classList.add('input-error');
+    errorMessage.style.display = 'block';
   }
-}
+});
+
+
+
+// Option 1: Add a button to toggle the completed status of a todo item
+// Function to toggle the completed status of a todo + 
+// Add a button to toggle the completed status of a todo item
+
+// Option 4: Add a button to filter todos by status
+// Add a button to filter todos by status
+// Function to filter todos by status
+
+// Option 7: Add a dropdown to set the priority level (e.g., Low, Medium, High) for each todo item.
+// Display the priority level next to each todo item.
+// Sort todos by priority.
