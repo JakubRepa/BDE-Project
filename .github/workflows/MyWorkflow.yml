@@ -11,6 +11,9 @@ jobs:
     environment: Test
     container:
       image: node
+    defaults:
+      run:
+        working-directory: ./bde-project
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -46,7 +49,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dist
-          path: dist/
+          path: bde-project/dist/
 
   deployment:
     needs: integration-delivery
@@ -57,7 +60,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: dist/
+          path: bde-project/dist/
 
       - name: FTP deploy
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
