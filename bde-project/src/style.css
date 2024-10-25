@@ -162,3 +162,16 @@ h1{
 .filter-buttons input[type="checkbox"] {
   margin-right: 5px;
 }
+
+/* Part of Task 1: Clear Completed Todos button */
+.clear-completed-btn {
+  padding: 10px;
+  border: none;
+  background: #dc3545; /* Red background to indicate action */
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+  display: block;
+  width: 100%;
+  font-size: 1em;
+}
