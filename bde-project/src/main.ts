@@ -169,6 +169,16 @@ form.addEventListener('submit', (event: Event) => {
   }
 });
 
+// Part of Task 1: Clear all completed todos
+const clearCompletedTodos = (): void => {
+  todos = todos.filter(todo => !todo.completed);
+  renderTodos();
+};
+
+// Part of Task 1: Event listener for clear completed todos button
+document.getElementById('clear-completed-btn')!.addEventListener('click', clearCompletedTodos);
+
+
 
 
 // Option 1: Add a button to toggle the completed status of a todo item
