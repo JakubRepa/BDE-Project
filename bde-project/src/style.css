@@ -34,11 +34,10 @@
   --todo-item-text-color: #ffffff;
 }
 
-/* Apply Variables to Elements */
 body {
   font-family: var(--font-family);
   background-color: var(--body-background-color);
-  color: var(--color);
+  color: #e0e0e0;
   margin: 0;
   padding: 0;
   display: flex;
@@ -46,6 +45,12 @@ body {
   align-items: center;
   height: 100vh;
 }
+
+h1{
+  margin: 0;
+}
+
+
 
 .container {
   background: var(--container-background-color);
@@ -55,36 +60,133 @@ body {
   width: var(--container-width);
 }
 
+.todo-form {
+  display: flex;
+  justify-content: space-between;
+}
+
 .todo-form input {
   flex: 1;
   padding: 10px;
   border: 1px solid #5a5a5a;
-  background-color: var(--input-background-color);
-  color: var(--input-text-color);
+  background-color: #ffffff;
+  color: #000000;
 }
 
 .todo-form button {
   padding: 14px;
   border: none;
-  background: var(--button-background-color);
-  color: var(--button-text-color);
+  background: #28a745;
+  color: #fff;
   cursor: pointer;
 }
 
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 .todo-item {
-  background: var(--todo-item-background-color);
-  color: var(--todo-item-text-color);
+  background: #ffffff;
   padding: 5px;
   border-bottom: 1px solid #555;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #242424;
 }
 
+.todo-item input[type="radio"] {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.todo-item span {
+  flex-grow: 1;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.edit-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.remove-btn i {
+  color: #dc3545;
+}
+
+.edit-btn i {
+  color: #ffc107;
+}
+
+.remove-btn:hover i, .edit-btn:hover i {
+  opacity: 0.8;
+}
+
+.input-error {
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}
+
+#error-message {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 5px;
+  display: none;
+}
+
+.complete-radio {
+  margin-right: 10px;
+  width: 20px; 
+  height: 20px;
+  cursor: pointer;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #2e2e2e;
+}
+
+/* New styles for the filter buttons */
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.filter-buttons label {
+  background: #efefef;
+  color: rgb(0, 0, 0);
+  border: 1px solid #000;
+  padding: 10px 10px;
+  cursor: pointer;
+}
+
+.filter-buttons input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+/* Part of Task 1: Clear Completed Todos button */
 .clear-completed-btn {
   padding: 10px;
   border: none;
-  background: #dc3545;
+  background: #dc3545; /* Red background to indicate action */
   color: #fff;
   cursor: pointer;
   margin-top: 10px;
@@ -92,3 +194,4 @@ body {
   width: 100%;
   font-size: 1em;
 }
+
