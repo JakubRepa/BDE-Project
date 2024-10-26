@@ -178,6 +178,14 @@ const clearCompletedTodos = (): void => {
 // Part of Task 1: Event listener for clear completed todos button
 document.getElementById('clear-completed-btn')!.addEventListener('click', clearCompletedTodos);
 
+// Part of Task 2: Toggle between light and dark themes
+const toggleTheme = (): void => {
+  document.body.classList.toggle('dark-theme'); // Toggle a class on the body for dark theme
+};
+
+// Part of Task 2: Event listener for theme toggle button
+document.getElementById('theme-toggle-btn')!.addEventListener('click', toggleTheme);
+
 
 
 
