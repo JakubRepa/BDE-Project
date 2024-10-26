@@ -10,14 +10,16 @@
   </head>
   <body>
     <div class="container">
-      <h1>Todo App</h1>
-      <!-- Part of Task 2: Toggle between light and dark modes -->
-      <button id="theme-toggle-btn" class="theme-toggle-btn">Toggle Theme</button>
-
+      <div class="header">
+        <h1>Todo App</h1>
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle-btn" class="theme-toggle-btn">Toggle Theme</button>
+      </div>
+      
       <p style="text-align: end; padding-right: 50px;">PRIORITY</p>
       <form class="todo-form">
         <input type="text" id="todo-input" placeholder="Add a new todo" />
-        <!-- priroity selector  -->
+        <!-- priority selector  -->
         <select id="priority-select">
           <option value="low">Low</option>
           <option value="medium">Medium</option> 
@@ -39,7 +41,6 @@
       <!-- error handling message : CSS added:: .input-error & #error-message -->
       <ul class="todo-list" id="todo-list"></ul>
 
-      
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
