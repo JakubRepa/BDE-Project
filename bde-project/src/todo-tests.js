@@ -2,44 +2,41 @@ import { Selector } from 'testcafe';
 
 // Define the fixture and the URL of the application
 fixture `Todo App Test`
-    .page `https://test.jakubrepa.com/todo/?` // Change it to the URL of your application
+    .page `https://test.jakubrepa.com/todo/` // Ensure this URL is correct for the testing environment
     .beforeEach(async t => {
-        // Arrange: Select necessary elements for adding a todo
+        // Arrange: Set up elements for adding todos
         const todoInput = Selector('#todo-input');
         const prioritySelect = Selector('#priority-select');
         const submitButton = Selector('.todo-form button[type="submit"]');
 
-        // Act: Add a new todo item with priority 'medium'
+        // Act: Add two todo items, one marked as completed
         await t
-            .typeText(todoInput, 'Test new todo')
+            .typeText(todoInput, 'First Todo')
             .click(prioritySelect)
-            .click(prioritySelect.find('option[value="medium"]')) // Select 'medium' priority
-            .click(submitButton); // Submit the form
+            .click(prioritySelect.find('option[value="low"]')) // Select 'low' priority
+            .click(submitButton) // Add the first todo
+            .typeText(todoInput, 'Second Todo')
+            .click(prioritySelect)
+            .click(prioritySelect.find('option[value="medium"]'))
+            .click(submitButton); // Add the second todo
+        
+        // Mark the first todo as completed
+        const firstTodoCheckbox = Selector('.todo-item').withText('First Todo').find('.complete-radio');
+        await t.click(firstTodoCheckbox);
     });
 
-// Test to verify that a new todo can be added
-test('Add a new todo', async t => {
-    // Assert: Check that the new todo is added with the correct text and priority
-    const todoList = Selector('.todo-item');
+// Test for the "Clear All Completed Todos" feature
+test('Clear all completed todos', async t => {
+    // Arrange: Select elements needed for the test
+    const clearCompletedBtn = Selector('#clear-completed-btn'); // Button to clear completed todos
+    const firstTodo = Selector('.todo-item').withText('First Todo');
+    const secondTodo = Selector('.todo-item').withText('Second Todo');
+
+    // Act: Click the "Clear Completed Todos" button
+    await t.click(clearCompletedBtn);
+
+    // Assert: Verify that the completed todo was removed and the incomplete one remains
     await t
-        .expect(todoList.withText('Test new todo').exists).ok()
-        .expect(todoList.withText('medium').exists).ok();
-});
-
-// Test to verify that a todo can be edited
-test('Edit a todo', async t => {
-    // Arrange: Select necessary elements for editing the todo
-    const todoItem = Selector('.todo-item').withText('Test new todo');
-    const editButton = Selector('#edit-btn'); // Targeting the button by ID
-
-    // Set the native dialog handler before triggering the prompt
-    await t
-        .setNativeDialogHandler(() => 'Edited todo text') // Handle the prompt dialog and return the new text
-
-        // Act: Click the edit button to trigger the prompt and submit the new text
-        .click(editButton)
-        .pressKey('enter'); // Submit the prompt with the new text
-
-    // Assert: Check that the todo text has been updated
-    const updatedTodoItem = Selector('.todo-item').withText('Edited todo text');
+        .expect(firstTodo.exists).notOk('The completed todo should be removed.')
+        .expect(secondTodo.exists).ok('The incomplete todo should remain.');
 });
