@@ -40,3 +40,22 @@ test('Clear all completed todos', async t => {
         .expect(firstTodo.exists).notOk('The completed todo should be removed.')
         .expect(secondTodo.exists).ok('The incomplete todo should remain.');
 });
+
+// Test for the "Toggle Theme" feature
+test('Toggle theme between light and dark modes', async t => {
+    // Arrange: Select the theme toggle button and check the initial state
+    const themeToggleBtn = Selector('#theme-toggle-btn'); // Button to toggle theme
+    const bodyElement = Selector('body'); // Body element to check for dark theme class
+
+    // Act: Click the theme toggle button to apply dark theme
+    await t.click(themeToggleBtn);
+
+    // Assert: Verify that the dark theme class is applied to the body
+    await t.expect(bodyElement.hasClass('dark-theme')).ok('The dark theme should be applied after the first click.');
+
+    // Act: Click the theme toggle button again to revert to light theme
+    await t.click(themeToggleBtn);
+
+    // Assert: Verify that the dark theme class is removed from the body
+    await t.expect(bodyElement.hasClass('dark-theme')).notOk('The dark theme should be removed after the second click.');
+});
