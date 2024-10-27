@@ -17,7 +17,7 @@ const todoInput = document.getElementById('todo-input') as HTMLInputElement;
 const prioritySelect = document.getElementById('priority-select') as HTMLSelectElement; // Option 7: Reference to the dropdown for priority selection
 const errorMessage = document.getElementById('error-message') as HTMLParagraphElement;
 const todoList = document.getElementById('todo-list') as HTMLUListElement;
-const filtersContainer = document.getElementById('filters') as HTMLDivElement; // Option 4: Container for filter buttons
+// const filtersContainer = document.getElementById('filters') as HTMLDivElement; // Option 4: Container for filter buttons
 
 // Filters State Object - Option 4 & Option 7
 const filters = {
