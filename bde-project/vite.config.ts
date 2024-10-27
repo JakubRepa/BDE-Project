@@ -2,9 +2,9 @@
 import { defineConfig } from 'vite' 
 
 export default defineConfig({
-  base: '/todo/',
+  // base: '/todo/',
   // other options
 })
 
 //uncomment the base option and set it to '/todo/' 
-//push the changeto GitHub
+//push the change to GitHub
