@@ -2,7 +2,7 @@
 import { defineConfig } from 'vite' 
 
 export default defineConfig({
-  // base: '/todo/',
+  base: '/todo/',
   // other options
 })
 
