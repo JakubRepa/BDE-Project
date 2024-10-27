@@ -17,7 +17,7 @@ const todoInput = document.getElementById('todo-input') as HTMLInputElement;
 const prioritySelect = document.getElementById('priority-select') as HTMLSelectElement; // Option 7: Reference to the dropdown for priority selection
 const errorMessage = document.getElementById('error-message') as HTMLParagraphElement;
 const todoList = document.getElementById('todo-list') as HTMLUListElement;
-const filtersContainer = document.getElementById('filters') as HTMLDivElement; // (NEW) Container for filter buttons
+const filtersContainer = document.getElementById('filters') as HTMLDivElement; // Option 4: Container for filter buttons
 
 // Filters State Object - Option 4 & Option 7
 const filters = {
@@ -131,26 +131,6 @@ const renderTodos = (): void => {
   });
 };
 
-// Option 4: Function to render filter buttons
-const renderFilters = (): void => {
-  filtersContainer.innerHTML = `
-    <label><input type="checkbox" id="filter-low"> Low</label>
-    <label><input type="checkbox" id="filter-medium"> Medium</label>
-    <label><input type="checkbox" id="filter-high"> High</label>
-  `;
-
-  // Add event listeners for each filter checkbox
-  document.getElementById('filter-low')!.addEventListener('change', (event) => {
-    handleFilterChange('low', (event.target as HTMLInputElement).checked);
-  });
-  document.getElementById('filter-medium')!.addEventListener('change', (event) => {
-    handleFilterChange('medium', (event.target as HTMLInputElement).checked);
-  });
-  document.getElementById('filter-high')!.addEventListener('change', (event) => {
-    handleFilterChange('high', (event.target as HTMLInputElement).checked);
-  });
-};
-
 // Option 7: Function to handle filter changes for priority
 const handleFilterChange = (priority: 'low' | 'medium' | 'high', checked: boolean): void => {
   filters[priority] = checked;  // Update filter state when checkbox changes
@@ -176,9 +156,6 @@ const toggleTheme = (): void => {
 // Event Listeners and Initial Setup
 // ==========================
 
-// Initial setup
-renderFilters(); // Render filter buttons on page load
-
 // Event listener for form submission to add a new todo
 form.addEventListener('submit', (event: Event) => {
   event.preventDefault();
@@ -197,6 +174,17 @@ form.addEventListener('submit', (event: Event) => {
     todoInput.classList.add('input-error');
     errorMessage.style.display = 'block';
   }
+});
+
+// Option 4: Event listeners for static filter buttons
+document.getElementById('filter-low')!.addEventListener('change', (event) => {
+  handleFilterChange('low', (event.target as HTMLInputElement).checked);
+});
+document.getElementById('filter-medium')!.addEventListener('change', (event) => {
+  handleFilterChange('medium', (event.target as HTMLInputElement).checked);
+});
+document.getElementById('filter-high')!.addEventListener('change', (event) => {
+  handleFilterChange('high', (event.target as HTMLInputElement).checked);
 });
 
 // BDE feature 1: Event listener for clear completed todos button
